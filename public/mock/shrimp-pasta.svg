@@ -1,0 +1,9 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#F8FAFC"/>
+  <circle cx="400" cy="300" r="215" fill="#E2E8F0"/>
+  <path d="M250 300C330 220 470 380 550 300" stroke="#F59E0B" stroke-width="34" stroke-linecap="round"/>
+  <path d="M260 360C340 280 460 440 540 360" stroke="#FBBF24" stroke-width="30" stroke-linecap="round"/>
+  <circle cx="330" cy="270" r="32" fill="#FB7185"/>
+  <circle cx="500" cy="340" r="34" fill="#FB7185"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial" font-size="42" font-weight="700" fill="#334155">蒜蓉虾仁意面</text>
+</svg>

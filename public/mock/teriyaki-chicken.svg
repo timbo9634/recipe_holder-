@@ -1,0 +1,8 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#FEFCE8"/>
+  <ellipse cx="400" cy="300" rx="230" ry="170" fill="#FACC15"/>
+  <rect x="270" y="205" width="260" height="160" rx="60" fill="#92400E"/>
+  <rect x="300" y="235" width="200" height="40" rx="20" fill="#F59E0B" opacity="0.8"/>
+  <circle cx="520" cy="230" r="22" fill="#22C55E"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial" font-size="42" font-weight="700" fill="#854D0E">照烧鸡腿饭</text>
+</svg>
