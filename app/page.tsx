@@ -1,27 +1,33 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Plus, Search } from "lucide-react";
-import { mockRecipes } from "@/lib/mock-recipes";
+import { Recipe } from "@/lib/types";
+import { getRecipes } from "@/lib/recipe-storage";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/recipe-card";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+  useEffect(() => {
+    setRecipes(getRecipes());
+  }, []);
 
   const filteredRecipes = useMemo(() => {
     const q = query.toLowerCase().trim();
-    if (!q) return mockRecipes;
+    if (!q) return recipes;
 
-    return mockRecipes.filter((recipe) =>
+    return recipes.filter((recipe) =>
       [recipe.title, recipe.sourceText, recipe.myNotes, recipe.tags.join(" ")]
         .join(" ")
         .toLowerCase()
         .includes(q)
     );
-  }, [query]);
+  }, [query, recipes]);
 
   return (
     <main className="min-h-screen bg-muted/30 px-5 py-8 sm:px-8">

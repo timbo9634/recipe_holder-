@@ -1,36 +1,24 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 
 export function PhotoUpload({
-  files,
+  images,
   onChange,
 }: {
-  files: File[];
-  onChange: (files: File[]) => void;
+  images: string[];
+  onChange: (images: string[]) => void;
 }) {
-  const previews = useMemo(
-    () => files.map((file) => ({ file, url: URL.createObjectURL(file) })),
-    [files]
-  );
-
-  useEffect(() => {
-    return () => {
-      previews.forEach((preview) => URL.revokeObjectURL(preview.url));
-    };
-  }, [previews]);
-
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selected = Array.from(e.target.files ?? []);
-    onChange([...files, ...selected]);
+    const dataUrls = await Promise.all(selected.map(readFileAsDataUrl));
+    onChange([...images, ...dataUrls]);
     e.target.value = "";
   }
 
-  function removeFile(index: number) {
-    onChange(files.filter((_, i) => i !== index));
+  function removeImage(index: number) {
+    onChange(images.filter((_, i) => i !== index));
   }
 
   return (
@@ -42,14 +30,14 @@ export function PhotoUpload({
         <span className="mt-1 text-xs text-muted-foreground">支持多张图片，本地预览，后续可接 S3/R2</span>
       </label>
 
-      {previews.length > 0 && (
+      {images.length > 0 && (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {previews.map((preview, index) => (
-            <div key={preview.url} className="space-y-2">
+          {images.map((image, index) => (
+            <div key={image} className="space-y-2">
               <div className="relative aspect-square overflow-hidden rounded-lg border bg-muted">
-                <Image src={preview.url} alt="菜谱照片预览" fill className="object-cover" />
+                <img src={image} alt="菜谱照片预览" className="h-full w-full object-cover" />
               </div>
-              <Button type="button" variant="outline" size="sm" className="w-full" onClick={() => removeFile(index)}>
+              <Button type="button" variant="outline" size="sm" className="w-full" onClick={() => removeImage(index)}>
                 移除
               </Button>
             </div>
@@ -58,4 +46,13 @@ export function PhotoUpload({
       )}
     </div>
   );
+}
+
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
